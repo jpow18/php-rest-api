@@ -35,4 +35,32 @@
 
     return $stmt;
     }
+
+    // Get Single Post
+    public function read_single() {
+      // Create query
+      $query = 'SELECT 
+              id,
+              name,
+              created_at
+            FROM ' . 
+              $this->table . '
+            WHERE 
+              id = :id';
+      
+      // Prepare query
+      $stmt = $this->conn->prepare($query);
+
+      // Bind parameter
+      $stmt->BindParam(":id", $this->id);
+
+      // Execute query
+      $stmt->execute();
+
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      // Set Properties
+      $this->name = $row['name'];
+      $this->created_at = $row['created_at'];
+    }
   }
